@@ -246,9 +246,6 @@ def _resolve_challenge(req: V1RequestBase, method: str) -> ChallengeResolutionT:
         raise Exception('Error solving the challenge. ' + str(e).replace('\n', '\\n'))
     finally:
         if not req.session and driver is not None:
-            if req.saveScreenshotTo:
-                res = driver.save_screenshot(req.saveScreenshotTo)
-                logging.debug(f'Screenshot saved to {req.saveScreenshotTo} with result: {res}')
             if utils.PLATFORM_VERSION == "nt":
                 driver.close()
             driver.quit()
@@ -420,6 +417,9 @@ def _evil_logic(req: V1RequestBase, driver: WebDriver, method: str) -> Challenge
     if not req.returnOnlyCookies:
         challenge_res.headers = {}  # todo: fix, selenium not provides this info
         challenge_res.response = driver.page_source
+
+    if req.saveScreenshot:
+        challenge_res.screenshot = driver.get_screenshot_as_png()
 
     res.result = challenge_res
     return res
