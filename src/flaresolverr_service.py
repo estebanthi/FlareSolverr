@@ -419,7 +419,7 @@ def _evil_logic(req: V1RequestBase, driver: WebDriver, method: str) -> Challenge
         challenge_res.response = driver.page_source
 
     if req.saveScreenshot:
-        challenge_res.screenshot = driver.get_screenshot_as_png()
+        challenge_res.screenshot = driver.get_screenshot_as_png().decode('utf-8')
 
     res.result = challenge_res
     return res
