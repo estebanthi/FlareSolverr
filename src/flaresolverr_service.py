@@ -247,8 +247,8 @@ def _resolve_challenge(req: V1RequestBase, method: str) -> ChallengeResolutionT:
     finally:
         if not req.session and driver is not None:
             if req.saveScreenshotTo:
-                driver.save_screenshot(req.saveScreenshotTo)
-                logging.debug(f'Screenshot saved to {req.saveScreenshotTo}')
+                res = driver.save_screenshot(req.saveScreenshotTo)
+                logging.debug(f'Screenshot saved to {req.saveScreenshotTo} with result: {res}')
             if utils.PLATFORM_VERSION == "nt":
                 driver.close()
             driver.quit()
